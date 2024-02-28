@@ -17,6 +17,7 @@ const Messenger = () => {
   // componentDidMout - connect to server, create room
   useEffect(() => {
     // open socket
+    console.log(process.env.REACT_APP_DOMAIN);
     setSocket(openSocket(`${process.env.REACT_APP_DOMAIN}`));
     if (!chatRoomId) {
       dispatch(createChatRoomAPI());
