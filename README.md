@@ -1,7 +1,7 @@
 Deploy project to Firebase.
 https://asm3-1fcfc.web.app
 
-noi dung moi Hello Quang
+noi dung moi Hello Quang - pull request from Duy Nguyen
 
 # Getting Started with Create React App
 
