@@ -1,0 +1,12 @@
+.messenger-container .messenger-icon svg {
+  width: 40px;
+  position: fixed;
+  bottom: 100px;
+  right: 100px;
+  z-index: 10000;
+  cursor: pointer;
+  background-color: black;
+  fill: white;
+  border: 5px solid black;
+  border-radius: 50%;
+}

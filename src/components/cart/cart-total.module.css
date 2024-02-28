@@ -1,0 +1,45 @@
+.cart-total-container {
+  background-color: rgba(128, 128, 128, 0.1);
+  padding: 40px;
+}
+.cart-total-container > label {
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 600;
+}
+.cart-total-container .subtotal,
+.cart-total-container .total {
+  font-style: italic;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.cart-total-container .subtotal {
+  margin-top: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+}
+.cart-total-container .subtotal .subtotal-price {
+  font-size: 14px;
+  color: rgba(128, 128, 128, 0.7);
+}
+.cart-total-container .total {
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+.cart-total-container .total .total-price {
+  font-size: large;
+}
+
+.cart-total-container .apply-coupon > input {
+  width: 92%;
+}
+.cart-total-container .apply-coupon > button {
+  width: 100%;
+  font-style: normal;
+}
+.cart-total-container .apply-coupon > button > svg {
+  width: 14px;
+  fill: white;
+  margin-right: 10px;
+}

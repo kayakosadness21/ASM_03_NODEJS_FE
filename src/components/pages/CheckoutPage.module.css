@@ -1,0 +1,10 @@
+.checkout-container {
+  width: 70%;
+  margin: auto;
+}
+
+.checkout-container .billing-detail {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}

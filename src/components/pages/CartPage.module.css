@@ -1,0 +1,21 @@
+.cart-container {
+  width: 70%;
+  margin: auto;
+}
+
+.cart-container .shopping-cart {
+  font-style: italic;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.cart-table-container {
+  width: 100%;
+}

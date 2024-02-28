@@ -1,0 +1,16 @@
+.detail-page-container {
+  width: 70%;
+  margin: auto;
+}
+
+.detail-page-container .product-related {
+  margin: 50px 0px;
+  font-style: italic;
+}
+
+.detail-page-container .related {
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 20px 0;
+}

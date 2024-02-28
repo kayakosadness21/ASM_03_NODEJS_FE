@@ -1,0 +1,31 @@
+.order-table {
+  font-style: italic;
+  font-size: 16px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.order-table .header {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+.order-table .header > th {
+  padding: 10px;
+  font-weight: 500;
+}
+.order-table tr td {
+  padding: 20px 0;
+  color: rgba(128, 128, 128, 0.8);
+  font-size: small;
+}
+
+.order-table .delete {
+  width: 15px;
+  fill: grey;
+  cursor: pointer;
+}
+.view {
+  border: 1px solid black;
+  padding: 5px;
+  color: gray;
+  cursor: pointer;
+}
