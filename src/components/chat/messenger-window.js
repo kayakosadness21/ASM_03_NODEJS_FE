@@ -4,7 +4,7 @@ import { addMessageAPI } from "../lib/api-chat";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const MessengerWindow = ({ adminTyping, onTypingHandler }) => {
+const MessengerWindow = (props) => {
   // const [adminTyping, setAdminTyping] = useState();
   const { conversation, chatRoomId } = useSelector(
     (state) => state.chatReducer
@@ -49,36 +49,42 @@ const MessengerWindow = ({ adminTyping, onTypingHandler }) => {
     });
 
   const sendMessageHandler = () => {
-    // check empty input
+    // // check empty input
+    let message = refMessage.current.value;
     if (refMessage.current.value.trim() === "") {
       alert("Please enter message.");
       refMessage.current.focus();
       return;
     }
-    // dispatch mesage to redux
-    dispatch({
-      type: "ADD_MESSAGE",
-      payload: {
-        user: "client",
-        message: refMessage.current.value,
-      },
-    });
-    // dispatch message to middleware
-    dispatch(
-      addMessageAPI({
-        user: "client",
-        roomId: chatRoomId,
-        message: refMessage.current.value,
-      })
-    );
+
+    // // dispatch mesage to redux
+    // dispatch({
+    //   type: "ADD_MESSAGE",
+    //   payload: {
+    //     user: "client",
+    //     message: refMessage.current.value,
+    //   },
+    // });
+    // // dispatch message to middleware
+    // dispatch(
+    //   addMessageAPI({
+    //     user: "client",
+    //     roomId: chatRoomId,
+    //     message: refMessage.current.value,
+    //   })
+    // );
+    props.socket.emit('CLIENT-SEND-MESSAGE', {email: props.user.email, message });
     refMessage.current.value = "";
   };
-  const startTypingHandler = () => {
-    onTypingHandler("START");
-  };
-  const stopTypingHandler = () => {
-    onTypingHandler("STOP");
-  };
+
+  // const startTypingHandler = () => {
+  //   onTypingHandler("START");
+  // };
+
+  // const stopTypingHandler = () => {
+  //   onTypingHandler("STOP");
+  // };
+
   // console.log("CHECK ROOM CHAT: ", chatRoom);
   return (
     <div className={classes["chat-window-container"]}>
@@ -89,23 +95,19 @@ const MessengerWindow = ({ adminTyping, onTypingHandler }) => {
       </div>
       {/* Chat content */}
       <div className={classes["chat-content"]} ref={refChatContent}>
-        {conversationList}
+        {props.messages.length > 0 && props.messages.map((message, index) => {
+          return (
+            <div key={index}>{message.content}</div>
+          )
+        })}
       </div>
       {/* Chat footer */}
-      <div className={classes.typing}>{adminTyping}</div>
+      {/* <div className={classes.typing}>{adminTyping}</div> */}
+
       <div className={classes["chat-footer"]}>
-        <img
-          className={classes["admin-icon"]}
-          src={admin_icon}
-          alt="Admin icon"
-        />
-        <input
-          type="text"
-          placeholder="Enter Message!"
-          ref={refMessage}
-          onFocus={startTypingHandler}
-          onBlur={stopTypingHandler}
-        />
+        <img className={classes["admin-icon"]} src={admin_icon} alt="Admin icon" />
+        <input type="text" placeholder="Enter Message!" ref={refMessage}/>
+
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path d="M396.2 83.8c-24.4-24.4-64-24.4-88.4 0l-184 184c-42.1 42.1-42.1 110.3 0 152.4s110.3 42.1 152.4 0l152-152c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-152 152c-64 64-167.6 64-231.6 0s-64-167.6 0-231.6l184-184c46.3-46.3 121.3-46.3 167.6 0s46.3 121.3 0 167.6l-176 176c-28.6 28.6-75 28.6-103.6 0s-28.6-75 0-103.6l144-144c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6l-144 144c-6.7 6.7-6.7 17.7 0 24.4s17.7 6.7 24.4 0l176-176c24.4-24.4 24.4-64 0-88.4z" />
         </svg>
