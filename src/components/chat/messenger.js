@@ -8,68 +8,11 @@ import { createChatRoomAPI } from "../lib/api-chat";
 import environment from "../../environment";
 
 const Messenger = () => {
-  const [chatToggle, setChatToggle] = useState(false);
-  const [socket, setSocket] = useState(null);
-  const refSocket = useRef();
-  refSocket.current = socket;
-  const { chatRoomId } = useSelector((state) => state.chatReducer);
-  const [adminTyping, setAdminTyping] = useState();
-  const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.logInReducer);
-
   const navigate = useNavigate();
-  let [instanceSocket, setInstanceSocket] = useState(null);
 
-  // componentDidMout - connect to server, create room
-  // useEffect(() => {
-  //   // open socket
-  //   console.log(process.env.REACT_APP_DOMAIN);
-  //   setSocket(openSocket(`${process.env.REACT_APP_DOMAIN}`));
-  //   if (!chatRoomId) {
-  //     dispatch(createChatRoomAPI());
-  //   }
-  //   const cleanup = (e) => {
-  //     e.preventDefault();
-  //     dispatch({ type: "CLEAR_CHAT" });
-  //     // return (e.returnValue = "Close tab");
-  //   };
-  //   window.addEventListener("beforeunload", cleanup);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", cleanup);
-  //     console.log("CHECK DISCONNECT: ", refSocket.current);
-  //     refSocket.current?.disconnect();
-  //   };
-  // }, []);
-
-  // componentDidUpdate - listen channel after get chatRoomId
-  // useEffect(() => {
-  //   // open channel with name is _id of chat room
-  //   if (socket && chatRoomId) {
-  //     socket.on(chatRoomId, (data) => {
-  //       if (data.action === "reply") {
-  //         dispatch({
-  //           type: "ADD_MESSAGE",
-  //           payload: { user: "admin", message: data.message },
-  //         });
-  //       }
-  //       if (data.action === "START_TYPING") {
-  //         // console.log("CHECK typing start: ", data);
-  //         setAdminTyping("Admin is typing ...");
-  //       } else {
-  //         // console.log("CHECK typing stop: ", data);
-  //         setAdminTyping("");
-  //       }
-  //     });
-  //   }
-  //   chatRoomId &&
-  //     socket?.emit("ONLINE_OFFLINE", {
-  //       action: "ONLINE",
-  //       roomId: chatRoomId,
-  //       userId: "client",
-  //     });
-  // }, [chatRoomId, socket]);
-
+  const [instanceSocket, setInstanceSocket] = useState(null);
+  const [chatToggle, setChatToggle] = useState(false);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -77,21 +20,17 @@ const Messenger = () => {
     setInstanceSocket(socket);
 
     socket.on("MESSAGE-OF-CLIENT-SEND", (data) => {
-      let { user: me } = data;
-      console.log(me);
-      setMessages(me.message);
+      let { user: my } = data;
+      setMessages(my.message);
     })
 
     socket.on("CLIENT-RECIVE-MESSAGE-FROMADMIN-SUPPORT", (data) => {
       let { client: my } = data;
-      console.log(my);
       setMessages([]);
       if(user.email == my.email) {
           setMessages(my.message);
       }
     })
-
-
   }, [chatToggle])
 
 
@@ -108,29 +47,6 @@ const Messenger = () => {
     }
 
     setChatToggle((prvChatToggle) => !prvChatToggle);
-  };
-
-
-  // console.log("CHECK SOCKT: ", socket);
-  const typingHandler = (status) => {
-    // console.log("CHECK CHOOSE ROOM: ", chooseRoom);
-    if (status === "START") {
-      socket?.emit("TYPING", {
-        action: "START_TYPING",
-        roomId: chatRoomId,
-        userId: "client",
-      });
-      return;
-    }
-    if (status === "STOP") {
-      socket?.emit("TYPING", {
-        action: "STOP_TYPING",
-        roomId: chatRoomId,
-        userId: "client",
-      });
-      console.log("stop type");
-      return;
-    }
   };
 
   return (
