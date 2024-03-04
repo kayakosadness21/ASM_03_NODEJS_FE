@@ -77,10 +77,21 @@ const Messenger = () => {
     setInstanceSocket(socket);
 
     socket.on("MESSAGE-OF-CLIENT-SEND", (data) => {
-      let { clientInfor } = data;
-      console.log(clientInfor);
-      setMessages(clientInfor.message)
+      let { user: me } = data;
+      console.log(me);
+      setMessages(me.message);
     })
+
+    socket.on("CLIENT-RECIVE-MESSAGE-FROMADMIN-SUPPORT", (data) => {
+      let { client: my } = data;
+      console.log(my);
+      setMessages([]);
+      if(user.email == my.email) {
+          setMessages(my.message);
+      }
+    })
+
+
   }, [chatToggle])
 
 
